@@ -37,8 +37,20 @@ forecast.horizon<-length(seaice.test)
 cycle(seaice.train)
 plot(aggregate(seaice.train))
 boxplot(seaice.test~cycle(seaice.test))
+decompose(seaice.test)
+plot(decompose(seaice.test))
+
+# Sea ice in May month
+seaice.may<-window(seaice.test,start<-c(2008,5),freq=TRUE)
+plot(seaice.may)
 
 #forecast seaice extent 
 fs<-forecast(seaice.test)
 attributes(fs)
 plot(fs)
+
+#HoltWinters objects
+plot(HoltWinters(seaice.test))
+seaice.predict<-predict(HoltWinters(seaice.test), n.ahead = 10*12)
+plot(seaice.predict)
+ts.plot(seaice.test,seaice.predict,lty=1:2)
